@@ -1,4 +1,4 @@
-﻿var sourceFolder = Folder("C:\\ps\\src");
+var sourceFolder = Folder("C:\\ps\\src");
 
 docLay=app.activeDocument.layers;
 l=app.activeDocument.layers.length;
@@ -28,9 +28,41 @@ executeAction( idautoCutout, desc01, DialogModes.NO );
 
 
 catch(err){}
+
+
 // Invert the selection
+app.activeDocument.selection.invert();
+
+/* Uncomment this code for a solid color background and comment the code from 57 to 85
+
+
+// Create a color to be used with the fill command
+
+var colorRef = new SolidColor
+
+colorRef.rgb.red = 255
+
+colorRef.rgb.green = 255
+
+colorRef.rgb.blue = 255
+
+
+
+// Now apply fill to the current selection
+
+app.activeDocument.selection.fill(remove);
+//Uncomment the line below if you want to close the document.
+//app.activeDocument.close(SaveOptions.DONOTSAVECHANGES);
+
+*/
+
+
+
 var topLayer = app.activeDocument.layers[0];
 app.activeDocument.activeLayer = topLayer;
+
+
+//remove the lock from the layer
 do{
     unlockLayer();
     selectLayerBelow();
@@ -49,115 +81,21 @@ function selectLayerBelow(){
     desc.putReference( charIDToTypeID( "null" ), ref );
     desc.putBoolean( charIDToTypeID( "MkVs" ), false );
     executeAction( charIDToTypeID( "slct" ), desc, DialogModes.NO );
-};//remove lock
-app.activeDocument.selection.invert();
+};
+//clear the selection 
 app.activeDocument.selection.clear();
 
 
+var Name = decodeURI(app.activeDocument.name).replace(/\.[^\.]+$/, '');
+var saveFile = new Folder("C:\\ps\\out");
+sfwPNG24(saveFile);
+//Uncomment the line below if you want to close the document.
+//app.activeDocument.close(SaveOptions.DONOTSAVECHANGES);
 
-
-// Create a color to be used with the fill command
-
-
-
-
-// Now apply fill to the current selection
-
-
-
-
-
-
-
-
-
-//fileList[a].remove();
  }
  
+ sfwPNG24(saveFile);
  
-/*function ExportPNG()
-{
-    // Confirm the document has already been saved and so has a path to use
-    try 
-    {
-        app.activeDocument.save()
-    } catch(e) {
-        alert("Could not export PNG as the document is not saved.\nPlease save and try again.")
-        return
-    }
-
-    // Store the active doc handle in variable
-    var originalDoc = app.activeDocument
-    
-    // Check there is at least 1 visible layer.
-	var foundVisible = false
-    for (i = 0; i < originalDoc.layers.length; i++)
-    {
-        if (originalDoc.layers[i].visible)
-        {
-            foundVisible = true
-			break
-        }
-    }
-	
-	if (!foundVisible){
-		alert("No visible layers found. PNG export failed.")
-		return
-	}
-	
-    // Duplicate. We'll save the duplicate as a .png and close it.
-    var newDoc = originalDoc.duplicate()
-    
-    // Photoshop must have a visible layer selected to merge visible layers, so we ensure there is one selected.
-    var dummyVisibleLayer = newDoc.artLayers.add();
-    newDoc.activeLayer = dummyVisibleLayer
-    
-    // Merge the layers.
-    newDoc.mergeVisibleLayers()
-    
-    // Remove all empty layers.
-    for (i = newDoc.layers.length-1; i >=0; i--)
-    {
-        if (!newDoc.layers[i].visible)
-        {
-            newDoc.layers[i].remove()
-        }
-    }
-    
-    // Set up PNG save options.
-    pngOptions = new PNGSaveOptions()
-    pngOptions.compression = 0
-    pngOptions.interlaced = false
-    
-    // Set up destination path.
-    savePath = new Folder("C:\\ps\\out");
-    
-    // Save!
-    newDoc.saveAs(savePath, pngOptions, false, Extension.LOWERCASE)
-    
-    // Close the duplicate.
-    newDoc.close()
-    
-    // Just in case, make sure the active document is the orignal one.
-    app.activeDocument=originalDoc
-	app.activeDocument.close(SaveOptions.DONOTSAVECHANGES);
-}
-
-ExportPNG() */ 
-
-var Name = decodeURI(app.activeDocument.name).replace(/\.[^\.]+$/, '');
-
-
-var saveFile = new Folder("C:\\ps\\out");
-
-
-sfwPNG24(saveFile);
-
-
-//Uncomment the line below if you want to close the document.
-
-
-app.activeDocument.close(SaveOptions.DONOTSAVECHANGES);
 
 
 
@@ -165,18 +103,15 @@ app.activeDocument.close(SaveOptions.DONOTSAVECHANGES);
 
 function sfwPNG24(saveFile){
 
-
 var pngOpts = new PNGSaveOptions;
-
 
 pngOpts.compression = 9;
 
-
 pngOpts.interlaced = false;
 
-
-activeDocument.saveAs(saveFile, pngOpts, true, Extension.LOWERCASE); 
-
+activeDocument.saveAs(saveFile, pngOpts, true, Extension.LOWERCASE);
 
 }
+
+
 
