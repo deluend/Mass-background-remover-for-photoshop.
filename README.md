@@ -18,3 +18,8 @@ But most of the scripts i found woulndt give me a transparent background, so i m
 4. DOWNLOAD THE SCRIPT
 
 5. GO TO PHOTOSHOP -> FILE -> SCRIPT -> BROWSE (select the file you downloaded)
+
+
+
+
+If you want it to save with a solid color background uncomment the code from line 36 to 57 code and comment the code from 57 to 85
